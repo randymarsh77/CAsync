@@ -444,8 +444,10 @@ async_ll_alloc_stack(struct async_ll_thread *thread)
   /* Protect the bottom page; this is sufficient to cause stack overruns to
      crash the process, without forcing us to call mprotect() to read the
      header. */
+#if defined(__x86_64__)
   mprotect (base, 4096, PROT_READ);
-  
+#endif
+
   return base;
 }
 
